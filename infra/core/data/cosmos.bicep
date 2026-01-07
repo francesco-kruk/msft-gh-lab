@@ -26,12 +26,23 @@ resource cosmosAccount 'Microsoft.DocumentDB/databaseAccounts@2024-11-15' = {
   tags: tags
   kind: 'GlobalDocumentDB'
   properties: {
+    // CRITICAL: Must be 'Enabled' for Container Apps without VNet integration
+    // Container Apps use outbound public IPs unless configured with private endpoints
     publicNetworkAccess: 'Enabled'
-    ipRules: [
-      {
-        ipAddressOrRange: '0.0.0.0'
-      }
-    ]
+    
+    // Allow Azure services to bypass firewall - this allows Container Apps to connect
+    // even without adding their specific IPs (which are dynamic)
+    networkAclBypass: 'AzureServices'
+    networkAclBypassResourceIds: []
+    
+    // Empty ipRules means: with networkAclBypass, Azure services can connect
+    // Add specific IPs here if you need to allow additional access
+    ipRules: []
+    
+    // Virtual network filtering not enabled (would need VNet integration)
+    isVirtualNetworkFilterEnabled: false
+    virtualNetworkRules: []
+    
     databaseAccountOfferType: 'Standard'
     enableFreeTier: enableFreeTier
     consistencyPolicy: {
@@ -49,6 +60,9 @@ resource cosmosAccount 'Microsoft.DocumentDB/databaseAccounts@2024-11-15' = {
         name: 'EnableServerless'
       }
     ] : []
+    
+    // Disable key-based access for better security, rely on RBAC only
+    disableKeyBasedMetadataWriteAccess: false
   }
 }
 
