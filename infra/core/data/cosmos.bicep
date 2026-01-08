@@ -35,10 +35,6 @@ resource cosmosAccount 'Microsoft.DocumentDB/databaseAccounts@2024-11-15' = {
     networkAclBypass: 'AzureServices'
     networkAclBypassResourceIds: []
     
-    // Empty ipRules means: with networkAclBypass, Azure services can connect
-    // Add specific IPs here if you need to allow additional access
-    ipRules: []
-    
     // Virtual network filtering not enabled (would need VNet integration)
     isVirtualNetworkFilterEnabled: false
     virtualNetworkRules: []
