@@ -27,7 +27,7 @@ You are free to use any method you prefer to reach the goal, depending on your c
 ## Follow-Along Instructions
 If you have less coding experience or want to see the Agent in action, use the following steps:
 
-1. Open **Copilot Edits** (Agent Mode).
+1. Open **Copilot Chat** (Agent Mode).
 2. In the model picker, select **Claude Sonnet 4.5**.
 3. Input the following prompt exactly:
 
@@ -35,10 +35,44 @@ If you have less coding experience or want to see the Agent in action, use the f
 
 4. **Review**: The Agent will analyze your workspace (`backend/src/`) and propose a plan. It will likely suggest creating a `Repository` abstract base class and two subclasses (`CosmosRepository`, `InMemoryRepository`).
 5. **Approve**: Click to apply the edits.
-6. **Verify**: Once finished, the Agent should tell you how to run the app in test mode. Try starting the backend (e.g., `cd backend && TEST_MODE=true python src/main.py` or similar command provided by the agent) and check if it runs without errors.
+6. **Verify**: Once finished, the Agent should tell you how to run the app in test mode. Try starting the backend (e.g., `./run-backend-test-mode.sh` or `STORAGE_MODE=test uvicorn src.main:app --reload`) and check if it runs without errors.
 
 ## Expected Outcome
-- The `backend/src` folder contains an abstraction for repositories.
-- There is an implementation for Cosmos DB (preserving existing logic).
-- There is a new implementation for In-Memory storage.
-- The app can start locally using the In-Memory storage.
+
+**Note:** Copilot's responses are non-deterministic and may vary between sessions. The exact files and structure might differ, but the core functionality should be similar.
+
+### Core Implementation (Required)
+The agent should create or modify these key files in `backend/src/repositories/`:
+
+- **Abstract Base Class** (e.g., `base.py` or `repository.py`) - Defines the repository interface with methods like `list_devices()`, `get_device()`, `create_device()`, `update_device()`, `delete_device()`
+- **Cosmos DB Implementation** (e.g., `cosmos_repo.py` or `cosmos_repository.py`) - Preserves existing Cosmos DB logic, moved from `__init__.py`
+- **In-Memory Implementation** (e.g., `memory.py`, `inmemory_repo.py`, or `test_repository.py`) - New implementation using Python dictionaries for storage
+- **Factory or Selection Logic** (e.g., `factory.py` or integrated in `__init__.py`) - Switches between implementations based on environment variables
+- **Updated `__init__.py`** - Modified to use the factory pattern and delegate to the selected implementation
+- **Updated `main.py`** - Modified to conditionally initialize Cosmos DB only when not in test mode
+
+### Environment Variable
+The implementation should use an environment variable to control the mode, such as:
+- `STORAGE_MODE=test` or `STORAGE_MODE=memory` for in-memory storage
+- `STORAGE_MODE=cosmos` or unset for Cosmos DB (default/production)
+
+Alternative variable names the agent might use: `TEST_MODE`, `REPOSITORY_TYPE`, `DB_MODE`, etc.
+
+### Additional Files (Optional but Likely)
+The agent may also generate supporting files such as:
+- **Shell scripts** (e.g., `run-backend-test-mode.sh`) - Convenience script to start the backend in test mode
+- **Python test/validation scripts** (e.g., `test-backend-testmode.py`) - Script to verify the implementation works
+- **Docker Compose configuration** (e.g., `docker-compose.test.yml`) - For running both frontend and backend in test mode
+- **Documentation files** - Such as `TEST_MODE_README.md`, `QUICKSTART.md`, architecture diagrams, implementation summaries, Playwright setup examples, etc.
+
+### Verification Steps
+To verify the implementation works:
+
+1. **Check files exist**: Verify the core repository files were created in `backend/src/repositories/`
+2. **Start in test mode**: Run the provided startup command (check agent's output for exact command)
+3. **Check logs**: Confirm you see messages like "Running in test mode" or "Using in-memory storage"
+4. **Test health endpoint**: `curl http://localhost:8000/health` should return `{"status":"healthy"}`
+5. **Test CRUD operations**: Use the validation script if provided, or manually test creating/reading/deleting devices
+6. **Verify isolation**: Data should not persist between restarts (restart the backend and confirm devices are gone)
+
+The app should start locally without Azure credentials and function identically to the Cosmos DB version, but using in-memory storage.
