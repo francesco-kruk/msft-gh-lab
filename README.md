@@ -32,7 +32,7 @@ A simple inventory management application built with React and FastAPI, deployed
 ```bash
 cd backend
 uv sync
-uv run uvicorn src.main:app --reload
+STORAGE_MODE=memory uv run uvicorn src.main:app --reload
 ```
 
 ### Frontend
@@ -69,6 +69,7 @@ The deployment sets and uses the following:
 - `COSMOS_ENDPOINT`: Cosmos DB account endpoint
 - `COSMOS_DB_NAME`: Database name (default: `inventory`)
 - `COSMOS_DEVICES_CONTAINER`: Container name (default: `devices`)
+- `STORAGE_MODE`: Set to `memory` to use the in-memory repository (no Cosmos env vars required). Defaults to `cosmos`.
 
 ## Architecture
 
