@@ -21,8 +21,8 @@ This task emphasizes **Customization & Advanced Context**. The main ways to enga
 
 -   **Copilot Instructions**: Refining the `.github/copilot-instructions.md` file to include testing preferences.
 -   **Custom Prompts**: Creating reusable prompts for generating tests.
--   **Custom Agents**: Using specific agents (like `@azure` if needed, though standard `@workspace` is primary here).
--   **MCP Servers**: Understanding how Copilot connects to external tools (like the file system or database, implicitly).
+-   **Custom Agents**: Using specific Playwright tester agents.
+-   **MCP Servers**: Understanding how Copilot connects to external tools (like the Playwright MCP server).
 -   **External Resources**: Visit [awesome-copilot](https://github.com/github/awesome-copilot) to find useful instruction files, prompts, and configuration patterns to import into this repository.
 
 ## Follow-Along Instructions (Multi-Mode Sequence)
