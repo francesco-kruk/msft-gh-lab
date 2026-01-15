@@ -56,17 +56,17 @@ Open Copilot Chat → switch to **Plan Mode** and use this prompt:
 
 Review the plan and ensure it covers repository abstraction, Cosmos implementation, in-memory implementation, and runtime selection.
 
-### 2) Agent Mode (same session) → Write the plan to plan/LOCAL-STORAGE.md
+### 2) Agent Mode (same session) → Write the plan to plan/local-storage.md
 Without refreshing the context, switch to **Agent Mode** and use this prompt:
 
-> Write the approved plan from Plan Mode into plan/LOCAL-STORAGE.md. Keep it concise, ordered, and actionable.
+> Write the approved plan from Plan Mode into plan/local-storage.md. Keep it concise, ordered, and actionable.
 
-Confirm that plan/LOCAL-STORAGE.md was created and accurately reflects the plan.
+Confirm that plan/local-storage.md was created and accurately reflects the plan.
 
 ### 3) Agent Mode (new session) → Implement the plan step-by-step
 Start a **new Copilot session** (fresh context), then switch to **Agent Mode** and use this prompt:
 
-> Implement the steps in plan/LOCAL-STORAGE.md exactly, one step at a time. Make minimal, clear edits and keep Cosmos support intact. Add an in-memory repository and runtime selection via an environment variable. Finish by summarizing how to run the backend in test mode.
+> Implement the steps in plan/local-storage.md exactly, one step at a time. Make minimal, clear edits and keep Cosmos support intact. Add an in-memory repository and runtime selection via an environment variable. Finish by summarizing how to run the backend in test mode.
 
 ## Expected Outcome
 **Note:** Copilot’s responses are non-deterministic and may vary between sessions. The exact files and structure might differ, but the core functionality should be similar.
