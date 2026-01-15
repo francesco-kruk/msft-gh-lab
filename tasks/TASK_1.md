@@ -6,40 +6,70 @@ In the course of the session, we will implement self-contained end-to-end (E2E) 
 **Note:** This task is strictly about setting up the application to run with the test storage. We will implement the actual Playwright tests in a later task.
 
 ## Objective & Desired Outcome
-You need to modify the backend to support a "test mode". When this mode is active:
-1. The application should use an **In-Memory Repository** implementation for data storage instead of connecting to Cosmos DB.
-2. The application should be startable locally in this mode without Azure credentials.
-3. The existing Cosmos DB implementation should remain intact for production use.
+Modify the backend to support a “test mode”. When this mode is active:
+1. The application uses an **In-Memory Repository** instead of Cosmos DB.
+2. The app starts locally without Azure credentials.
+3. The Cosmos DB implementation remains intact for production.
 
-Specifically, this involves:
-- Creating an interface/abstraction for your data access layer.
-- Moving the current Cosmos DB logic into a concrete implementation of that interface.
-- Creating a new In-Memory implementation (e.g., using a Python dictionary or list).
-- Using an environment variable (e.g., `TEST_MODE=true` or `REPOSITORY_TYPE=memory`) to switch implementations at runtime.
+**Note:** The outcome of this task can be found in the remote branch named `task-1`.
 
-## Ways to Complete This Task
-You are free to use any method you prefer to reach the goal, depending on your comfort level:
+Specifically, you will:
+- Create an interface/abstraction for data access.
+- Move existing Cosmos DB logic into a concrete implementation of that interface.
+- Create a new In-Memory implementation (e.g., using a Python dictionary or list).
+- Use an environment variable (e.g., `STORAGE_MODE=memory`) to select the implementation at runtime.
 
-- **Pro-Code**: Use your preferred coding style. You can manually refactor the code, abstract the repository pattern, and implement the in-memory store. Use Copilot Inline Suggestions (`Ctrl+I` / `Cmd+I`) to generate the boilerplate for the new classes.
-- **Assisted**: Use Copilot Chat (`Ctrl+Alt+I` / `Cmd+Alt+I`) to ask for a plan ("How do I refactor this FastAPI app to use the Repository pattern?") or specific code snippets.
-- **Autonomous (Agent Mode)**: Use Copilot's Agent Mode to plan and implement the changes across multiple files automatically.
+## Ways to Engage with Copilot
+Use these engagement styles during the task:
 
-## Follow-Along Instructions
-If you have less coding experience or want to see the Agent in action, use the following steps:
+### Pro-Code / Inline
+- **Ghost text**: Accept or reject line-level suggestions as you type.
+- **Next Edit Suggestion**: Jump to Copilot’s next suggested change (good for repetitive refactors).
+- **Comment-driven autocomplete**: Write a brief comment describing a function/class and let Copilot expand it.
+- **Inline Chat (Ctrl+I / Cmd+I)**: Ask for small, local edits in a single file.
 
-1. Open **Copilot Chat** (Agent Mode).
-2. In the model picker, select **Claude Sonnet 4.5**.
-3. Input the following prompt exactly:
+### Guided / Chat
+- **Ask Mode**: Ask Copilot for guidance without applying edits.
+- **Edit Mode**: Request edits with a focused instruction (still mostly manual control).
+- **Plan Mode**: Ask Copilot to outline a step-by-step plan before changes.
 
-    > I want to implement self-contained end-to-end testing using Playwright. For that, implement a “test mode” backend storage option (in-memory repository) so tests don’t depend on Cosmos and start the app locally. Ignore the actual e2e testing for now.
+### Hands-Off / Autonomous
+- **Agent Mode**: Let Copilot analyze the workspace and make multi-file changes on your behalf.
 
-4. **Review**: The Agent will analyze your workspace (`backend/src/`) and propose a plan. It will likely suggest creating a `Repository` abstract base class and two subclasses (`CosmosRepository`, `InMemoryRepository`).
-5. **Approve**: Click to apply the edits.
-6. **Verify**: Once finished, the Agent should tell you how to run the app in test mode. Try starting the backend (e.g., `./run-backend-test-mode.sh` or `STORAGE_MODE=test uvicorn src.main:app --reload`) and check if it runs without errors.
+## Reminder: Modes From Most “Pro‑Code” to Most “Hands‑Off”
+1. **Ghost text** — Inline, token-level suggestions while you type.
+2. **Next Edit Suggestion** — Navigates to the next suggested edit for refactors.
+3. **Comment-driven autocomplete** — Generate code from a natural-language comment.
+4. **Inline Chat (Ctrl+I / Cmd+I)** — Localized edits in the current file.
+5. **Ask Mode** — Advice only, no edits applied.
+6. **Edit Mode** — Generates edits, you review and apply.
+7. **Plan Mode** — Produces a plan before any edits.
+8. **Agent Mode** — Autonomous multi-file changes with minimal manual effort.
+
+## Follow-Along Instructions (Multi-Mode Sequence)
+Use this exact sequence to practice the modes in one continuous session.
+
+### 1) Plan Mode
+Open Copilot Chat → switch to **Plan Mode** and use this prompt:
+
+> Create a step-by-step plan to add a test-mode backend with an in-memory repository to this FastAPI app. Include file touch points and environment variable behavior.
+
+Review the plan and ensure it covers repository abstraction, Cosmos implementation, in-memory implementation, and runtime selection.
+
+### 2) Agent Mode (same session) → Write the plan to plan/LOCAL-STORAGE.md
+Without refreshing the context, switch to **Agent Mode** and use this prompt:
+
+> Write the approved plan from Plan Mode into plan/LOCAL-STORAGE.md. Keep it concise, ordered, and actionable.
+
+Confirm that plan/LOCAL-STORAGE.md was created and accurately reflects the plan.
+
+### 3) Agent Mode (new session) → Implement the plan step-by-step
+Start a **new Copilot session** (fresh context), then switch to **Agent Mode** and use this prompt:
+
+> Implement the steps in plan/LOCAL-STORAGE.md exactly, one step at a time. Make minimal, clear edits and keep Cosmos support intact. Add an in-memory repository and runtime selection via an environment variable. Finish by summarizing how to run the backend in test mode.
 
 ## Expected Outcome
-
-**Note:** Copilot's responses are non-deterministic and may vary between sessions. The exact files and structure might differ, but the core functionality should be similar.
+**Note:** Copilot’s responses are non-deterministic and may vary between sessions. The exact files and structure might differ, but the core functionality should be similar.
 
 ### Core Implementation (Required)
 The agent should create or modify these key files in `backend/src/repositories/`:
