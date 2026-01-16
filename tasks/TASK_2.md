@@ -27,33 +27,84 @@ This task emphasizes **Customization & Advanced Context**. The main ways to enga
 
 ## Follow-Along Instructions (Multi-Mode Sequence)
 
-### 1) Preparation - Awesome Copilot
-Visit [https://github.com/github/awesome-copilot](https://github.com/github/awesome-copilot).
--   Look for "Instructions" or "Prompts" related to testing, Python, or Playwright.
--   *Optional*: Copy relevant patterns into your `.github/copilot-instructions.md` to teach Copilot how you like your tests structured (e.g., "Always use `pytest` fixtures," "Use Page Object Model").
+### 1) Preparation - Copilot Instructions & Awesome Copilot
+-   **Generate Instructions**: Click on the gear icon in the Copilot Chat panel and select **"Generate Chat Instructions"**. This will help bootstrap your `.github/copilot-instructions.md`.
+-   **Awesome Copilot**: Visit [https://github.com/github/awesome-copilot](https://github.com/github/awesome-copilot).
+    -   Download the following files and add them to your `.github` folder (create subfolders like `.github/instructions/`, `.github/prompts/` and `.github/agents/` for maintainability):
+        -   [playwright-python.instructions.md](https://github.com/github/awesome-copilot/blob/0b9ad6eaaae33a9316c88ebff139bf5384eb1278/instructions/playwright-python.instructions.md)
+        -   [playwright-explore-website.prompt.md](https://github.com/github/awesome-copilot/blob/0b9ad6eaaae33a9316c88ebff139bf5384eb1278/prompts/playwright-explore-website.prompt.md)
+        -   [playwright-tester.agent.md](https://github.com/github/awesome-copilot/blob/0b9ad6eaaae33a9316c88ebff139bf5384eb1278/agents/playwright-tester.agent.md)
 
-### 2) Plan Mode
-Open Copilot Chat → switch to **Plan Mode** and use this prompt:
+### 2) Configure Downloaded Files
+Now that you've added the Playwright files from awesome-copilot, configure them for optimal performance:
 
-> Plan the setup of Playwright for Python in this workspace. We want to test the full E2E flow (create, list, delete device) against the locally running app (frontend+backend in test mode). Include necessary `pip` installs and folder structure.
+-   **Update Model Selection**: In both `.github/agents/playwright-tester.agent.md` and `.github/prompts/playwright-explore-website.prompt.md`, change the model to `Claude Sonnet 4.5`, `GPT-5.2-Codex`, or a similarly powerful model.
+-   **Scope Instructions Correctly**: In `.github/instructions/playwright-python.instructions.md`, update the `applyTo` pattern from `'**'` to `'{**/test_*.py,**/*_test.py,**/tests/**/*.py}'`. This ensures the Playwright Python instructions only apply to Python test files, not the entire repository (including your TypeScript frontend).
 
-Review the plan. It should include installing `playwright` and `pytest-playwright`, running `playwright install`, and creating a `tests/e2e/` directory.
+### 3) Install Playwright MCP
+Add the Playwright MCP in VS Code through the UI by clicking on Extensions on the left side panel or by pressing `Ctrl+Shift+X` and then typing `@mcp Playwright` in the search bar. Find and install the Playwright server on top of the list (ensure it is the one issued by Microsoft).
 
-### 3) Agent Mode - Setup & Implementation
-Switch to **Agent Mode** and use a prompt similar to this:
+After installation, ensure the MCP server is enabled by clicking on the wrench and screwdriver icon next to the model selection in the Copilot Chat UI and selecting the `microsoft/playwright-mcp` tool.
 
-> Execute the plan to set up Playwright. Then, write a robust E2E test file in `tests/e2e/test_devices.py`. It should verify that a user can open the frontend, add a new device, see it in the list, and delete it. Assume the app is running on localhost:5173.
+**Note:** Ensure you have a browser installed for Playwright to use. You may need to run `npx playwright install chromium`, `npx playwright install chrome` or similar in your terminal if you haven't already.
 
-### 4) Verification / Running
+### 4) Explore with Prompt
+Open Copilot Chat and switch to **Agent Mode**. Use the custom prompt you downloaded to explore the running application and generate a test plan:
+
+> /playwright-explore-website Run this prompt against http://localhost:3000 to explore the app and propose a test plan.
+
+**Note:** After running this prompt, confirm that Copilot is using `.github/copilot-instructions.md` and potentially `.github/instructions/playwright-python.instructions.md`. You can check this by looking at the context indicator in the Copilot Chat panel (the paperclip icon or "Used references" section) to ensure relevant instruction files are loaded as context.
+
+Review the output. Copilot will use the Playwright MCP to click through your app and suggest a testing strategy.
+
+### 5) Custom Agent - Test Review & Generation
+Add the custom agent `Playwright Tester Mode` by clicking the chat participant dropdown in the Copilot Chat panel. Then, run the following prompt:
+
+> Review the generated test plan and add any missing tests if necessary. If valid, set up the test environment and generate a robust E2E test file in `tests/e2e/test_devices.py`. It should verify that a user can open the frontend, add a new device, see it in the list, and delete it. Assume the app is running on localhost:3000.
+
+### 6) Verification / Running
 Ask Copilot how to run the tests.
 > How do I run these tests against my local stack?
 
-(You will likely need to start the backend in one terminal with `STORAGE_MODE=memory` and the frontend in another, then run `pytest` in a third).
+**Typical steps to run the generated tests:**
+
+1.  **Install Python Dependencies**:
+    ```bash
+    pip install -r tests/requirements.txt
+    ```
+
+2.  **Install Playwright Browsers**:
+    ```bash
+    playwright install
+    ```
+
+3.  **Start the Application**:
+    -   **Backend** (Terminal 1):
+        ```bash
+        cd backend
+        # Ensure your virtual environment is active if using one
+        STORAGE_MODE=memory uv run uvicorn src.main:app --reload
+        ```
+    -   **Frontend** (Terminal 2):
+        ```bash
+        cd frontend
+        npm run dev
+        ```
+
+4.  **Run Tests** (Terminal 3):
+    ```bash
+    cd tests
+    pytest
+    ```
 
 ## Expected Outcome
--   **New Directory**: `tests/e2e/` (or similar) containing the tests.
--   **Dependencies**: `playwright` added to a requirements file (or `pyproject.toml`) or just installed.
--   **Test File**: A Python file (e.g., `test_devices.py`) using `playwright.sync_api` or `async_api`.
--   **Working Test**: The test passes when the app is running locally.
+-   **Test Directory**: A dedicated directory for tests (e.g., `tests/e2e/`) containing the test scenarios.
+-   **Dependencies File**: A `requirements.txt` (or update to `pyproject.toml`) in the `tests/` folder listing `pytest` and `pytest-playwright`.
+-   **Test Implementation**: A properly structured test file (likely `test_devices.py` or similar) that:
+    -   Uses Playwright fixtures (`page`, `expect`).
+    -   Implements tests for Creating, Reading, Updating, and Deleting (CRUD) devices.
+    -   Handles browser interaction logic (clicking, typing, alerts).
+-   **Successful Execution**: The tests run and pass against the local environment (`localhost:3000`).
+
 
 **Note:** The outcome of this task can be found in the remote branch named `task-2`.
