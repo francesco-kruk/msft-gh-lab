@@ -39,6 +39,7 @@ This is a monorepo containing a full-stack application deployed to Azure Contain
 - **Tooling**: Uses Azure Developer CLI (`azd`). `azure.yaml` describes the service map.
 - **Deployment**: `azd up` provisions resources and deploys code.
 - **Environment**: Backend relies on System-Assigned Managed Identity to access Cosmos DB (RBAC).
+- **Automation**: The user should be able to set up everything automatically by running `azd up` without the need to run additional scripts manually.
 
 ## 📝 Coding Conventions
 - **Pydantic**: Use `src.schemas.py` for all DTOs.
