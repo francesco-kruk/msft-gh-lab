@@ -116,6 +116,23 @@ Since this repo previously used a single environment, update the resource group 
 - Update the resource group name in [infra/main.bicep](infra/main.bicep#L37-L42) to `rg-gh-lab-<env>`.
 - Re-run `azd provision` (or `azd up`) for each environment to create or migrate the resource group names.
 
+### 9) Agent Mode (new session) - Update Documentation with CI/CD details
+Start a **new Copilot session** (Agent Mode) to ensure the documentation reflects the new capabilities.
+
+**Prompt:**
+> I have successfully implemented the CI/CD pipelines. Now update the documentation to reflect these changes.
+>
+> 1.  **Update `README.md`**:
+>     -   Add a new section `## CI/CD Pipeline`.
+>     -   Describe the workflow: Pull Requests trigger CI (tests), merge to `main` deploys to **Dev**, and **Prod** requires manual approval.
+>     -   Explain how to set up the pipeline using `./scripts/setup-cicd.sh <env> <location>`.
+>
+> 2.  **Update `.github/copilot-instructions.md`**:
+>     -   Under `## ☁️ Infrastructure & Deployment`, add a bullet point about the CI/CD pipeline.
+>     -   Mention that deployments should primarily happen via GitHub Actions for consistent environments.
+>     -   Mention the existence of `dev` and `prod` environments in GitHub.
+
+
 ## Expected Outcome
 -   A `.github/workflows/` directory containing your CI/CD workflow definition(s).
 -   A `scripts/setup-cicd.sh` script for configuring GitHub Actions secrets.
