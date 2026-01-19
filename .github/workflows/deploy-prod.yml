@@ -1,0 +1,38 @@
+name: Deploy Prod
+
+on:
+  workflow_dispatch:
+    inputs:
+      confirm_production_deployment:
+        description: Confirm production deployment
+        required: true
+        type: boolean
+
+permissions:
+  contents: read
+  id-token: write
+
+concurrency:
+  group: deploy-prod
+  cancel-in-progress: false
+
+jobs:
+  validate:
+    name: Validate confirmation
+    runs-on: ubuntu-latest
+    steps:
+      - name: Confirm production deployment
+        run: |
+          if [[ "${{ inputs.confirm_production_deployment }}" != "true" ]]; then
+            echo "confirm_production_deployment must be true to proceed."
+            exit 1
+          fi
+
+  deploy:
+    name: Deploy prod
+    needs: validate
+    uses: ./.github/workflows/deploy.yml
+    with:
+      environment: prod
+      azure_env_name: prod
+    secrets: inherit

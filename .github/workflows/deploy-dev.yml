@@ -1,0 +1,23 @@
+name: Deploy Dev
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+  id-token: write
+
+concurrency:
+  group: deploy-dev
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: Deploy dev
+    uses: ./.github/workflows/deploy.yml
+    with:
+      environment: dev
+      azure_env_name: dev
+    secrets: inherit

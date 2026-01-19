@@ -1,0 +1,67 @@
+name: CI
+
+on:
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  backend:
+    name: Backend tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup uv
+        uses: astral-sh/setup-uv@v3
+        with:
+          python-version: "3.11"
+
+      - name: Sync dependencies
+        working-directory: backend
+        run: uv sync
+
+      - name: Run tests
+        working-directory: backend
+        env:
+          STORAGE_MODE: memory
+        run: uv run pytest ../tests
+
+  frontend:
+    name: Frontend lint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Install dependencies
+        working-directory: frontend
+        run: npm ci
+
+      - name: Lint
+        working-directory: frontend
+        run: npm run lint
+
+  iac:
+    name: IaC build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Build Bicep
+        uses: azure/cli@v2
+        with:
+          inlineScript: |
+            az bicep build --file infra/main.bicep

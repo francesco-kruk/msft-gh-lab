@@ -1,0 +1,57 @@
+name: Deploy (Reusable)
+
+on:
+  workflow_call:
+    inputs:
+      environment:
+        required: true
+        type: string
+      azure_env_name:
+        required: true
+        type: string
+    secrets:
+      AZURE_CLIENT_ID:
+        required: true
+      AZURE_TENANT_ID:
+        required: true
+      AZURE_SUBSCRIPTION_ID:
+        required: true
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  deploy:
+    name: Deploy ${{ inputs.environment }}
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Azure login (OIDC)
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: Setup Azure Developer CLI
+        uses: Azure/setup-azd@v1
+
+      - name: Select azd environment
+        run: azd env select "${{ inputs.azure_env_name }}"
+
+      - name: Set image tags
+        run: |
+          azd env set SERVICE_BACKEND_IMAGE_NAME "backend:${{ github.sha }}"
+          azd env set SERVICE_FRONTEND_IMAGE_NAME "frontend:${{ github.sha }}"
+
+      - name: Provision infrastructure
+        run: azd provision --no-prompt
+
+      - name: Deploy application
+        run: azd deploy --no-prompt
