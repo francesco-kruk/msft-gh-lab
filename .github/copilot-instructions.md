@@ -40,6 +40,7 @@ This is a monorepo containing a full-stack application deployed to Azure Contain
 - **Deployment**: `azd up` provisions resources and deploys code.
 - **Environment**: Backend relies on System-Assigned Managed Identity to access Cosmos DB (RBAC).
 - **Automation**: The user should be able to set up everything automatically by running `azd up` without the need to run additional scripts manually.
+- **CI/CD**: Deployments should primarily happen via GitHub Actions for consistent environments. The project uses `dev` and `prod` environments in GitHub.
 
 ## 📝 Coding Conventions
 - **Pydantic**: Use `src.schemas.py` for all DTOs.

@@ -62,6 +62,27 @@ This single command will:
   azd auth login
   ```
 
+## CI/CD Pipeline
+
+The project includes a comprehensive CI/CD pipeline using GitHub Actions.
+
+### Workflow
+1. **Pull Requests**: Triggers the CI pipeline which runs tests to validate changes.
+2. **Merge to `main`**: Automatically deploys the changes to the **Dev** environment.
+3. **Production Release**: Deploying to **Prod** requires manual approval in GitHub Actions.
+
+### Setup
+You can set up the required Azure resources and GitHub secrets for the pipeline using the provided script:
+
+```bash
+./scripts/setup-cicd.sh <env> <location>
+```
+
+For example:
+```bash
+./scripts/setup-cicd.sh dev eastus2
+```
+
 ## Environment Variables
 
 The deployment sets and uses the following:
