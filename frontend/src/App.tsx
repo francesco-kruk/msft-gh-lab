@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useEffect, useState, useCallback } from 'react'
 import './App.css'
 import DeviceList from './components/DeviceList'
 import DeviceForm from './components/DeviceForm'
