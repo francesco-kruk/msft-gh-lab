@@ -42,6 +42,6 @@ ENV VIRTUAL_ENV="/app/.venv"
 # Expose port
 EXPOSE 8000
 
-# Change working directory to src and run the application
-WORKDIR /app/src
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+# Run the application as a package module so relative imports work
+WORKDIR /app
+CMD ["uvicorn", "src.main:app", "--host", "0.0.0.0", "--port", "8000"]
