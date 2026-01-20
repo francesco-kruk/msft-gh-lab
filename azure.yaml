@@ -9,6 +9,10 @@ hooks:
     shell: sh
     run: ./infra/hooks/preprovision.sh
     continueOnError: false
+  postprovision:
+    shell: sh
+    run: ./infra/hooks/postprovision.sh
+    continueOnError: false
 
 services:
   backend:
