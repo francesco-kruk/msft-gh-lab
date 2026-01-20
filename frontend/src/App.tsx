@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import './App.css'
 import DeviceList from './components/DeviceList'
 import DeviceForm from './components/DeviceForm'
+import ThemeToggle from './components/ThemeToggle'
 import { Device, DeviceCreate } from './types'
 
 const API_URL = import.meta.env.VITE_API_URL || '/api'
@@ -80,6 +81,7 @@ function App() {
 
   return (
     <div className="app">
+      <ThemeToggle />
       <header className="app-header">
         <h1>💻 Device Management</h1>
       </header>

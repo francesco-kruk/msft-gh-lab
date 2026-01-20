@@ -3,14 +3,47 @@
   line-height: 1.5;
   font-weight: 400;
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+/* Default dark theme */
+:root,
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg-color: #242424;
+  --text-color: rgba(255, 255, 255, 0.87);
+  --border-color: #333;
+  --input-bg: #1a1a1a;
+  --button-bg: #1a1a1a;
+  --hover-bg: #2a2a2a;
+  --toggle-bg: #1a1a1a;
+  --toggle-border: #444;
+  --toggle-hover: #646cff;
+  --toggle-icon: rgba(255, 255, 255, 0.87);
+  
+  color: var(--text-color);
+  background-color: var(--bg-color);
+}
+
+/* Light theme */
+:root[data-theme="light"] {
+  color-scheme: light;
+  --bg-color: #ffffff;
+  --text-color: #213547;
+  --border-color: #d0d0d0;
+  --input-bg: #f9f9f9;
+  --button-bg: #f9f9f9;
+  --hover-bg: #f0f0f0;
+  --toggle-bg: #f9f9f9;
+  --toggle-border: #d0d0d0;
+  --toggle-hover: #646cff;
+  --toggle-icon: #213547;
+  
+  color: var(--text-color);
+  background-color: var(--bg-color);
 }
 
 * {
@@ -45,7 +78,7 @@ button {
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: #1a1a1a;
+  background-color: var(--button-bg);
   cursor: pointer;
   transition: border-color 0.25s;
 }
@@ -57,14 +90,4 @@ button:hover {
 button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
-}
-
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
 }
