@@ -192,3 +192,4 @@ output BACKEND_URI string = backend.outputs.uri
 output FRONTEND_URI string = frontendUpdate.outputs.uri
 output COSMOS_ENDPOINT string = cosmos.outputs.endpoint
 output COSMOS_DB_NAME string = cosmosDatabaseName
+output AZURE_RESOURCE_GROUP string = rg.name
