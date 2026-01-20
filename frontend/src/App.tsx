@@ -6,10 +6,17 @@ import { Device, DeviceCreate } from './types'
 
 const API_URL = import.meta.env.VITE_API_URL || '/api'
 type ThemeMode = 'dark' | 'light'
+const THEME_STORAGE_KEY = 'theme'
 
 const getInitialTheme = (): ThemeMode => {
-  if (typeof window !== 'undefined' && window.matchMedia) {
-    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+  if (typeof window !== 'undefined') {
+    const storedTheme = window.localStorage.getItem(THEME_STORAGE_KEY)
+    if (storedTheme === 'dark' || storedTheme === 'light') {
+      return storedTheme
+    }
+    if (window.matchMedia) {
+      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+    }
   }
   return 'dark'
 }
@@ -44,6 +51,7 @@ function App() {
 
   useEffect(() => {
     document.documentElement.dataset.theme = theme
+    window.localStorage.setItem(THEME_STORAGE_KEY, theme)
   }, [theme])
 
   // Add device
@@ -103,7 +111,7 @@ function App() {
           aria-label={isDarkMode ? 'Switch to light mode' : 'Switch to dark mode'}
           title={isDarkMode ? 'Switch to light mode' : 'Switch to dark mode'}
         >
-          {isDarkMode ? '🌗' : '☀️'}
+          <span aria-hidden="true">{isDarkMode ? '🌗' : '☀️'}</span>
         </button>
       </header>
       
