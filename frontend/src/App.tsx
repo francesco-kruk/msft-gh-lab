@@ -10,9 +10,13 @@ const THEME_STORAGE_KEY = 'theme'
 
 const getInitialTheme = (): ThemeMode => {
   if (typeof window !== 'undefined') {
-    const storedTheme = window.localStorage.getItem(THEME_STORAGE_KEY)
-    if (storedTheme === 'dark' || storedTheme === 'light') {
-      return storedTheme
+    try {
+      const storedTheme = window.localStorage.getItem(THEME_STORAGE_KEY)
+      if (storedTheme === 'dark' || storedTheme === 'light') {
+        return storedTheme
+      }
+    } catch {
+      // Ignore storage access issues and fall back to system preference.
     }
     if (window.matchMedia) {
       return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
@@ -51,7 +55,11 @@ function App() {
 
   useEffect(() => {
     document.documentElement.dataset.theme = theme
-    window.localStorage.setItem(THEME_STORAGE_KEY, theme)
+    try {
+      window.localStorage.setItem(THEME_STORAGE_KEY, theme)
+    } catch {
+      // Ignore storage access issues.
+    }
   }, [theme])
 
   // Add device
