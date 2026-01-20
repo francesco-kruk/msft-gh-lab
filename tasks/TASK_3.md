@@ -64,6 +64,10 @@ Switch to **Plan Mode** in Copilot Chat to design the pipeline before generating
 >    - Must detect existing `azd` App Registrations (Backend & Frontend) and store their Client IDs as GitHub Secrets (`BACKEND_API_CLIENT_ID`, `FRONTEND_SPA_CLIENT_ID`).
 >    - Creates a Service Principal for GitHub OIDC.
 >    - **Crucial**: Must assign the Service Principal as an **Owner** of the App Registrations (or grant `Application.ReadWrite.OwnedBy`) to allow the pipeline to update Redirect URIs.
+>
+> 6. **Local Development & CI Reliability**:
+>    - Include a `postprovision` hook in `azure.yaml` that runs a script (`infra/hooks/postprovision.sh`).
+>    - This script must grant the "Cosmos DB Built-in Data Contributor" role to the current principal (user or CI SPN) to prevent RBAC errors during `azd up`.
 
 Review the plan to ensure it covers the GitHub Actions workflow file, the OIDC setup, and the GitHub setup script. Keep refining the plan is needed by interacting with Copilot in Plan Mode.
 
