@@ -93,7 +93,12 @@ module frontend 'core/host/container-app.bicep' = {
     containerImage: !empty(frontendImageName) ? frontendImageName : 'nginx:latest'
     targetPort: 80
     minReplicas: 1
-    env: []  // Backend URL will be set after backend is created
+    env: [
+      {
+        name: 'BACKEND_URL'
+        value: 'http://localhost'
+      }
+    ]  // Backend URL will be set accurately after backend is created
   }
 }
 
