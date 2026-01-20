@@ -5,12 +5,22 @@ import DeviceForm from './components/DeviceForm'
 import { Device, DeviceCreate } from './types'
 
 const API_URL = import.meta.env.VITE_API_URL || '/api'
+type ThemeMode = 'dark' | 'light'
+
+const getInitialTheme = (): ThemeMode => {
+  if (typeof window !== 'undefined' && window.matchMedia) {
+    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+  }
+  return 'dark'
+}
 
 function App() {
   const [devices, setDevices] = useState<Device[]>([])
   const [editingDevice, setEditingDevice] = useState<Device | null>(null)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [theme, setTheme] = useState<ThemeMode>(() => getInitialTheme())
+  const isDarkMode = theme === 'dark'
 
   // Fetch devices
   const fetchDevices = async () => {
@@ -31,6 +41,10 @@ function App() {
   useEffect(() => {
     fetchDevices()
   }, [])
+
+  useEffect(() => {
+    document.documentElement.dataset.theme = theme
+  }, [theme])
 
   // Add device
   const handleAddDevice = async (device: DeviceCreate) => {
@@ -82,6 +96,15 @@ function App() {
     <div className="app">
       <header className="app-header">
         <h1>💻 Device Management</h1>
+        <button
+          type="button"
+          className="theme-toggle"
+          onClick={() => setTheme(isDarkMode ? 'light' : 'dark')}
+          aria-label={isDarkMode ? 'Switch to light mode' : 'Switch to dark mode'}
+          title={isDarkMode ? 'Switch to light mode' : 'Switch to dark mode'}
+        >
+          {isDarkMode ? '🌗' : '☀️'}
+        </button>
       </header>
       
       <main className="app-main">
