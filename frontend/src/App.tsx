@@ -112,9 +112,6 @@ function App() {
           title={isDarkMode ? 'Switch to light mode' : 'Switch to dark mode'}
         >
           <span aria-hidden="true">{isDarkMode ? '🌙' : '☀️'}</span>
-          <span className="visually-hidden">
-            {isDarkMode ? 'Switch to light mode' : 'Switch to dark mode'}
-          </span>
         </button>
       </header>
       
