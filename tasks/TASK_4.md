@@ -24,7 +24,7 @@ In this task, we focus purely on the **Agentic** workflow within GitHub function
 1. Open [GitHub Copilot](https://github.com/copilot) and select the right repository.
 2. Click on **"Create issue"** or type `/create-issue` in the chat interface.
 3. Add an appropriate prompt to describe the feature:
-   > "Implement a dark and light mode toggle for the frontend application. It should be positioned in the top right corner. The button should show a sun icon when in light mode and a half-moon icon when in dark mode. It should update the background and text colors appropriate for each mode."
+   > "Implement a dark and light mode toggle for the frontend application. It should be positioned in the top right corner. The button should show a sun icon when in light mode and a half-moon icon when in dark mode. It should update the background and text colors appropriate for each mode. The new feature should be implemented followign the current structure, frameworks, and style of the project."
 4. Review the generated issue description and click **Create issue**.
 
 ### Step 2: Delegate Implementation to Copilot
