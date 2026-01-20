@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import './App.css'
 import DeviceList from './components/DeviceList'
 import DeviceForm from './components/DeviceForm'
@@ -9,18 +9,16 @@ type ThemeMode = 'dark' | 'light'
 const THEME_STORAGE_KEY = 'theme'
 
 const getInitialTheme = (): ThemeMode => {
-  if (typeof window !== 'undefined') {
-    try {
-      const storedTheme = window.localStorage.getItem(THEME_STORAGE_KEY)
-      if (storedTheme === 'dark' || storedTheme === 'light') {
-        return storedTheme
-      }
-    } catch {
-      // Ignore storage access issues and fall back to system preference.
+  try {
+    const storedTheme = window.localStorage.getItem(THEME_STORAGE_KEY)
+    if (storedTheme === 'dark' || storedTheme === 'light') {
+      return storedTheme
     }
-    if (window.matchMedia) {
-      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
-    }
+  } catch {
+    // Ignore storage access issues and fall back to system preference.
+  }
+  if (window.matchMedia) {
+    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
   }
   return 'dark'
 }
@@ -32,6 +30,9 @@ function App() {
   const [error, setError] = useState<string | null>(null)
   const [theme, setTheme] = useState<ThemeMode>(() => getInitialTheme())
   const isDarkMode = theme === 'dark'
+  const toggleTheme = useCallback(() => {
+    setTheme((currentTheme) => (currentTheme === 'dark' ? 'light' : 'dark'))
+  }, [])
 
   // Fetch devices
   const fetchDevices = async () => {
@@ -115,7 +116,7 @@ function App() {
         <button
           type="button"
           className="theme-toggle"
-          onClick={() => setTheme(isDarkMode ? 'light' : 'dark')}
+          onClick={toggleTheme}
           aria-label={isDarkMode ? 'Switch to light mode' : 'Switch to dark mode'}
           title={isDarkMode ? 'Switch to light mode' : 'Switch to dark mode'}
         >
