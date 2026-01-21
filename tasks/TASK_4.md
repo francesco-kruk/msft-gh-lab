@@ -37,3 +37,12 @@ In this task, we focus purely on the **Agentic** workflow within GitHub function
 2. Observe the **Code Review Agent** (or Copilot's review summary) providing feedback or approval on the generated code.
 3. Once the checks pass and you are satisfied with the implementation, merge the Pull Request.
 4. Verify the toggle works in the deployed or local application.
+
+## Expected Outcome
+-   **Theme Toggle Component**: A new React component (e.g., `ThemeToggle.tsx`) integrated into the header or navigation.
+-   **Iconography**: The button correctly displays a Sun icon in light mode and a Moon icon in dark mode.
+-   **State Persistence**: The user's theme preference is saved (e.g., in `localStorage`) and persists across page reloads.
+-   **Styling**: The application applies appropriate background and text colors for both modes.
+-   **Agent Workflow**: The feature is implemented via the GitHub Copilot Agent workflow (Issue -> PR).
+
+**Note:** The outcome of this task can be found in the remote branch named `task-4`.
