@@ -41,6 +41,7 @@ This is a monorepo containing a full-stack application deployed to Azure Contain
 - **Environment**: Backend relies on System-Assigned Managed Identity to access Cosmos DB (RBAC).
 - **Automation**: The user should be able to set up everything automatically by running `azd up` without the need to run additional scripts manually.
 - **CI/CD**: Deployments should primarily happen via GitHub Actions for consistent environments. The project uses `dev` and `prod` environments in GitHub.
+- **Guidance**: When working on GitHub Actions workflows, STRICTLY follow the instructions in `.github/instructions/github-actions-ci-cd-best-practices.instructions.md`.
 
 ## 📝 Coding Conventions
 - **Pydantic**: Use `src.schemas.py` for all DTOs.
@@ -53,3 +54,7 @@ This is a monorepo containing a full-stack application deployed to Azure Contain
 - **Repo Interface**: [`backend/src/repositories/base.py`](backend/src/repositories/base.py)
 - **Data Schemas**: [`backend/src/schemas.py`](backend/src/schemas.py)
 - **Frontend Proxy**: [`frontend/vite.config.ts`](frontend/vite.config.ts)
+
+## 🧪 Testing
+- **Framework**: Use Playwright with `pytest-playwright` for End-to-End tests.
+- **Guidance**: When writing or updating tests, STRICTLY follow the instructions in `.github/instructions/playwright-python.instructions.md`.
