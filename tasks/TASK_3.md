@@ -29,12 +29,19 @@ As you execute this task, remember to leverage:
     -   Add this file to your `.github/instructions/` folders (e.g., `.github/instructions/github-actions-ci-cd-best-practices.instructions.md`).
 -   **Load Context**: Ensure this new instruction file is referenced or active in your Copilot context.
 
-### 2) Install Agents & Tools
+### 2) Update Copilot Instructions
+Add the following text to your `.github/copilot-instructions.md` file (in the `## ☁️ Infrastructure & Deployment` section) to ensure Copilot follows the CI/CD best practices.
+
+```markdown
+- **Guidance**: When working on GitHub Actions workflows, STRICTLY follow the instructions in `.github/instructions/github-actions-ci-cd-best-practices.instructions.md`.
+```
+
+### 3) Install Agents & Tools
 -   **GitHub Copilot for Azure**: Install the **GitHub Copilot for Azure** extension. This adds the `@azure` agent, which is an expert in `azd` configuration and Azure resources.
 -   **GitHub MCP Server**: Open the Extensions view (`Ctrl+Shift+X`) and search for the **GitHub MCP Server**. Install it to enable deeper integration with GitHub Actions.
 -   **Configure**: Ensure these tools are enabled in the Copilot Chat "Attachments" or "Tools" menu.
 
-### 3) Plan Mode - Design CI/CD Strategy
+### 4) Plan Mode - Design CI/CD Strategy
 Switch to **Plan Mode** in Copilot Chat to design the pipeline before generating code.
 
 **Prompt:**
@@ -71,19 +78,19 @@ Switch to **Plan Mode** in Copilot Chat to design the pipeline before generating
 
 Review the plan to ensure it covers the GitHub Actions workflow file, the OIDC setup, and the GitHub setup script. Keep refining the plan is needed by interacting with Copilot in Plan Mode.
 
-### 4) Agent Mode (same session) - Save the Plan
+### 5) Agent Mode (same session) - Save the Plan
 Once the plan is created, switch to **Agent Mode** (stay in the same session) to save it.
 
 **Prompt:**
 > Write the approved plan from Plan Mode into `plan/cicd-setup.md`. Keep it concise, ordered, and actionable.
 
-### 5) Agent Mode (new session) - Implement CI/CD Workflow
+### 6) Agent Mode (new session) - Implement CI/CD Workflow
 Start a **new Copilot session**, switch to **Agent Mode**, and execute the plan by adding it as context.
 
 **Prompt:**
 > Implement the steps in `plan/cicd-setup.md` exactly, one step at a time. Create the GitHub Actions workflow files for both dev and prod environments.
 
-### 6) Configure GitHub Actions Secrets
+### 7) Configure GitHub Actions Secrets
 After your infrastructure is provisioned with `azd up`, you need to configure GitHub Actions to authenticate with Azure. To do so, run the setup script generated in the previous step.
 
 Ensure the script is executable (run from the repo root):
@@ -108,19 +115,19 @@ Example:
 ./scripts/setup-cicd.sh prod swedencentral
 ```
 
-### 7) Verification
+### 8) Verification
 -   **Check GitHub**: Go to **Settings → Environments**. You should see `dev` and `prod` environments. Click on one to verify that `AZURE_CLIENT_ID`, `AZURE_TENANT_ID`, and `AZURE_SUBSCRIPTION_ID` are set as **Environment secrets**.
 -   **Test Pipeline**: Create a Pull Request. The `ci` workflow should run tests successfully but NOT deploy.
     -   Merge the PR to `main` → triggers deployment to **dev** environment.
     -   Manually trigger the **prod** deployment workflow → deploys to **prod** environment.
 -   **Monitor**: Check the "Actions" tab in your GitHub repository to see the workflow runs.
 
-### 8) Rename Resource Groups (post-migration)
+### 9) Rename Resource Groups (post-migration)
 Since this repo previously used a single environment, update the resource group naming to match the new multi-environment convention:
 - Update the resource group name in [infra/main.bicep](infra/main.bicep#L37-L42) to `rg-gh-lab-<env>`.
 - Re-run `azd provision` (or `azd up`) for each environment to create or migrate the resource group names.
 
-### 9) Agent Mode (new session) - Update Documentation with CI/CD details
+### 10) Agent Mode (new session) - Update Documentation with CI/CD details
 Start a **new Copilot session** (Agent Mode) to ensure the documentation reflects the new capabilities.
 
 **Prompt:**
