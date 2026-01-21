@@ -41,14 +41,23 @@ Now that you've added the Playwright files from awesome-copilot, configure them 
 -   **Update Model Selection**: In both `.github/agents/playwright-tester.agent.md` and `.github/prompts/playwright-explore-website.prompt.md`, change the model to `Claude Sonnet 4.5`, `GPT-5.2-Codex`, or a similarly powerful model.
 -   **Scope Instructions Correctly**: In `.github/instructions/playwright-python.instructions.md`, update the `applyTo` pattern from `'**'` to `'{**/test_*.py,**/*_test.py,**/tests/**/*.py}'`. This ensures the Playwright Python instructions only apply to Python test files, not the entire repository (including your TypeScript frontend).
 
-### 3) Install Playwright MCP
+### 3) Update Copilot Instructions
+Add the following text to your `.github/copilot-instructions.md` file to ensure Copilot follows the Playwright best practices when writing tests. You can add it at the end of the file.
+
+```markdown
+## 🧪 Testing
+- **Framework**: Use Playwright with `pytest-playwright` for End-to-End tests.
+- **Guidance**: When writing or updating tests, STRICTLY follow the instructions in `.github/instructions/playwright-python.instructions.md`.
+```
+
+### 4) Install Playwright MCP
 Add the Playwright MCP in VS Code through the UI by clicking on Extensions on the left side panel or by pressing `Ctrl+Shift+X` and then typing `@mcp Playwright` in the search bar. Find and install the Playwright server on top of the list (ensure it is the one issued by Microsoft).
 
 After installation, ensure the MCP server is enabled by clicking on the wrench and screwdriver icon next to the model selection in the Copilot Chat UI and selecting the `microsoft/playwright-mcp` tool.
 
 **Note:** Ensure you have a browser installed for Playwright to use. You may need to run `npx playwright install chromium`, `npx playwright install chrome` or similar in your terminal if you haven't already.
 
-### 4) Explore with Prompt
+### 5) Explore with Prompt
 Open Copilot Chat and switch to **Agent Mode**. Use the custom prompt you downloaded to explore the running application and generate a test plan:
 
 > /playwright-explore-website Run this prompt against http://localhost:3000 to explore the app and propose a test plan.
@@ -57,12 +66,12 @@ Open Copilot Chat and switch to **Agent Mode**. Use the custom prompt you downlo
 
 Review the output. Copilot will use the Playwright MCP to click through your app and suggest a testing strategy.
 
-### 5) Custom Agent - Test Review & Generation
+### 6) Custom Agent - Test Review & Generation
 Add the custom agent `Playwright Tester Mode` by clicking the chat participant dropdown in the Copilot Chat panel. Then, run the following prompt:
 
 > Review the generated test plan and add any missing tests if necessary. If valid, set up the test environment and generate a robust E2E test file in `tests/e2e/test_devices.py`. It should verify that a user can open the frontend, add a new device, see it in the list, and delete it. Assume the app is running on localhost:3000.
 
-### 6) Verification / Running
+### 7) Verification / Running
 Ask Copilot how to run the tests.
 > How do I run these tests against my local stack?
 
