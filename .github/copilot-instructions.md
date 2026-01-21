@@ -52,3 +52,7 @@ This is a monorepo containing a full-stack application deployed to Azure Contain
 - **Repo Interface**: [`backend/src/repositories/base.py`](backend/src/repositories/base.py)
 - **Data Schemas**: [`backend/src/schemas.py`](backend/src/schemas.py)
 - **Frontend Proxy**: [`frontend/vite.config.ts`](frontend/vite.config.ts)
+
+## 🧪 Testing
+- **Framework**: Use Playwright with `pytest-playwright` for End-to-End tests.
+- **Guidance**: When writing or updating tests, STRICTLY follow the instructions in `.github/instructions/playwright-python.instructions.md`.
