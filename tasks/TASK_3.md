@@ -78,19 +78,31 @@ Switch to **Plan Mode** in Copilot Chat to design the pipeline before generating
 
 Review the plan to ensure it covers the GitHub Actions workflow file, the OIDC setup, and the GitHub setup script. Keep refining the plan is needed by interacting with Copilot in Plan Mode.
 
-### 5) Agent Mode (same session) - Save the Plan
+### 5) Create a Skill for Writing Implementation Plans
+Before saving the plan, create a reusable skill that defines how to write structured implementation plans.
+
+-   **Create Directory**: Create `.github/skills/write-structured-implementation-plans/`
+-   **Create Skill File**: Create a `SKILL.md` file in this directory.
+-   **Frontmatter**: Add frontmatter with `name: write-structured-implementation-plans` (matching the folder name) and `description: ...`
+-   **Content**: Define the structure, format, and best practices for writing implementation plans (phases, checkboxes, file locations, etc.).
+
+This skill will be reusable across future tasks and can guide Copilot in creating consistent, well-structured plans.
+
+### 6) Agent Mode (same session) - Save the Plan
 Once the plan is created, switch to **Agent Mode** (stay in the same session) to save it.
 
 **Prompt:**
-> Write the approved plan from Plan Mode into `plan/cicd-setup.md`. Keep it concise, ordered, and actionable.
+> Write the approved plan from Plan Mode.
 
-### 6) Agent Mode (new session) - Implement CI/CD Workflow
+Confirm that the agent uses the newly created skill and writes the new plan according to the guidelines.
+
+### 7) Agent Mode (new session) - Implement CI/CD Workflow
 Start a **new Copilot session**, switch to **Agent Mode**, and execute the plan by adding it as context.
 
 **Prompt:**
 > Implement the steps in `plan/cicd-setup.md` exactly, one step at a time. Create the GitHub Actions workflow files for both dev and prod environments.
 
-### 7) Configure GitHub Actions Secrets
+### 8) Configure GitHub Actions Secrets
 After your infrastructure is provisioned with `azd up`, you need to configure GitHub Actions to authenticate with Azure. To do so, run the setup script generated in the previous step.
 
 Ensure the script is executable (run from the repo root):
@@ -115,19 +127,19 @@ Example:
 ./scripts/setup-cicd.sh prod swedencentral
 ```
 
-### 8) Verification
+### 9) Verification
 -   **Check GitHub**: Go to **Settings → Environments**. You should see `dev` and `prod` environments. Click on one to verify that `AZURE_CLIENT_ID`, `AZURE_TENANT_ID`, and `AZURE_SUBSCRIPTION_ID` are set as **Environment secrets**.
 -   **Test Pipeline**: Create a Pull Request. The `ci` workflow should run tests successfully but NOT deploy.
     -   Merge the PR to `main` → triggers deployment to **dev** environment.
     -   Manually trigger the **prod** deployment workflow → deploys to **prod** environment.
 -   **Monitor**: Check the "Actions" tab in your GitHub repository to see the workflow runs.
 
-### 9) Rename Resource Groups (post-migration)
+### 10) Rename Resource Groups (post-migration)
 Since this repo previously used a single environment, update the resource group naming to match the new multi-environment convention:
 - Update the resource group name in [infra/main.bicep](infra/main.bicep#L37-L42) to `rg-gh-lab-<env>`.
 - Re-run `azd provision` (or `azd up`) for each environment to create or migrate the resource group names.
 
-### 10) Agent Mode (new session) - Update Documentation with CI/CD details
+### 11) Agent Mode (new session) - Update Documentation with CI/CD details
 Start a **new Copilot session** (Agent Mode) to ensure the documentation reflects the new capabilities.
 
 **Prompt:**
