@@ -88,6 +88,8 @@ Before saving the plan, create a reusable skill that defines how to write struct
 
 This skill will be reusable across future tasks and can guide Copilot in creating consistent, well-structured plans.
 
+*Important:* To enable skills in VS Code, go to Settings (`ctrl`+`,`), search for "skill", and enable `Chat: Use Agent Skills`.
+
 ### 6) Agent Mode (same session) - Save the Plan
 Once the plan is created, switch to **Agent Mode** (stay in the same session) to save it.
 
