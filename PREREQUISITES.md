@@ -10,6 +10,9 @@ You’re ready when you can check all of these:
 - [ ] I have activated my **Azure Visual Studio subscription** and linked it to **GitHub Enterprise**
 - [ ] My **GitHub account** is linked to (or can authenticate with) my **Microsoft account**
 - [ ] I have an **Azure subscription** and can create resources (at least **Contributor** access)
+
+Optional, only needed if not using Codespaces:
+
 - [ ] I have **GitHub Copilot** enabled and the **VS Code extension** installed
 - [ ] I have **GitHub Copilot Chat** enabled and the **VS Code extension** installed
 - [ ] I have **VS Code**, **Git**, and **Docker** installed locally
@@ -104,6 +107,8 @@ Complete this after your Azure subscription is set up.
 
 ---
 
+## _Optional steps (needed if not using Codespaces):_
+
 ## 5) GitHub Copilot (VS Code extension)
 
 You need a Copilot subscription assigned to your GitHub user, and the VS Code extension installed.
@@ -157,8 +162,6 @@ These labs involve building/running code locally.
 	- Install instructions: https://docs.astral.sh/uv/getting-started/installation/
 6. Provision **Python 3.11+** using uv:
 	- Example: `uv python install 3.11`
-7. Create/sync the backend environment:
-	- From the repo root: `cd backend && uv sync`
 
 ### Verify
 
@@ -168,4 +171,3 @@ These labs involve building/running code locally.
 - Node and npm are available: `node --version` and `npm --version`
 - uv is available: `uv --version`
 - uv-managed Python meets the minimum: `uv run python --version`
-- Backend deps resolve locally: `cd backend && uv sync`
