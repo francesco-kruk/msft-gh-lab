@@ -10,7 +10,7 @@ param environmentName string
 param location string
 
 @description('Whether to enable Cosmos DB Free Tier (only one per subscription)')
-param cosmosFreeTierEnabled bool = false
+param cosmosFreeTierEnabled bool = true
 
 @description('Backend container image name')
 param backendImageName string = ''

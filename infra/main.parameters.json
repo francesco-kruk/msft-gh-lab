@@ -7,15 +7,6 @@
     },
     "location": {
       "value": "${AZURE_LOCATION}"
-    },
-    "principalId": {
-      "value": "${principalId}"
-    },
-    "principalType": {
-      "value": "${principalType}"
-    },
-    "principalName": {
-      "value": "${principalName}"
     }
   }
 }

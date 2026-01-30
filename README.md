@@ -26,6 +26,13 @@ A simple inventory management application built with React and FastAPI, deployed
 - [Docker](https://www.docker.com/get-started)
 - Azure subscription
 
+## Open in Codespaces
+
+Use the devcontainer for a ready-to-deploy environment with Azure tooling preinstalled.
+
+- Quickstart and troubleshooting: [.devcontainer/README.md](.devcontainer/README.md)
+- Golden path: `azd auth login` → `azd env new` → `azd env set AZURE_LOCATION <region>` → `azd up`
+
 ## Local Development
 
 ### Backend
