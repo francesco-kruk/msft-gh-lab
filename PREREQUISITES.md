@@ -10,8 +10,6 @@ You’re ready when you can check all of these:
 - [ ] I have activated my **Azure Visual Studio subscription** and linked it to **GitHub Enterprise**
 - [ ] My **GitHub account** is linked to (or can authenticate with) my **Microsoft account**
 - [ ] I have an **Azure subscription** and can create resources (at least **Contributor** access)
-- [ ] I have **GitHub Enterprise trial** enabled for the lab org (or I can request it)
-- [ ] I have verified (and if needed enabled) **GitHub Advanced Security** features for the lab org/repo
 - [ ] I have **GitHub Copilot** enabled and the **VS Code extension** installed
 - [ ] I have **GitHub Copilot Chat** enabled and the **VS Code extension** installed
 - [ ] I have **VS Code**, **Git**, and **Docker** installed locally
@@ -106,74 +104,7 @@ Complete this after your Azure subscription is set up.
 
 ---
 
-## 5) GitHub Enterprise trial (30-day)
-
-Before you can use GitHub Advanced Security features in the lab, your GitHub organization must be tied to **GitHub Enterprise**.
-
-### Setup steps
-
-1. **Sign in to GitHub** using the account you will use for the lab.
-2. **Select or create a GitHub organization** for the lab.
-	- You must be an **organization owner** (or work with someone who is).
-    - To create a GitHub organization, execute the following steps:
-        1. From your GitHub account select Manage Organizations.
-        2. If you do not see an organization you’d like to associate with a GitHub Enterprise account, select New organization.
-        3. Choose the Free plan for the organization plan. Select Create a free organization.
-        4. Fill out the form. Consider using the name GitHub Lab <your-github-account-name> to ensure it is unique. Click Next.
-        ![alt text](public/image.png)
-        5. If you don’t plan to add other members, select Complete setup.
-3. **Start a GitHub Enterprise 30-day trial** and associate it with the organization:
-	- Sign up for a GitHub Enterprise account
-        1. Start here: https://github.com/account/enterprises/new
-	    2. Trial info (what’s included/required): https://docs.github.com/en/enterprise-cloud@latest/enterprise-onboarding/getting-started-with-your-enterprise/setting-up-a-trial-of-github-enterprise
-        ![alt text](public/image-1.png)
-        3. If you are not working in a corporate GitHub account, choose “Get started with personal accounts”.
-    - Create your enterprise
-        1. Enter the name of your enterprise and choose the GitHub organization to connect to. Consider naming the enterprise GitHub Lab Enterprise <your-github-account-name> to ensure uniqueness.
-        2. Fill out the remaining details on the form and select “Create enterprise”.
-        ![alt text](public/image-2.png)
-
-> Note: GitHub will ask for billing information to start the 30-day trial. The lab cleanup process should include removing/disabling trial resources when you’re done.
-
-### Verify
-
-- Your organization shows it is connected to a GitHub Enterprise account (trial active).
-- GitHub **Secret Protection** and **Code Security** features are available in your org/repo settings (these are included in the GitHub Enterprise Cloud trial, but may still need to be enabled).
-
----
-
-## 6) GitHub Advanced Security (GHAS) features enabled
-
-GitHub Advanced Security features are included in the GitHub Enterprise Cloud trial (as **GitHub Secret Protection** and **GitHub Code Security**), but they still need to be enabled at the organization and/or repository level.
-
-### Setup steps (high level)
-
-1. In GitHub, open your **organization**, then go to **Settings**.
-2. In the left sidebar, open the org-level security settings (commonly **Security & analysis**).
-3. Enable (or confirm enabled) the security features required for the lab:
-	- **Dependency graph** (dependency review relies on this)
-	- **Dependabot alerts** (recommended)
-	- **Dependabot security updates** (recommended)
-	- **Code scanning** (GitHub Code Security)
-	- **Secret scanning** (GitHub Secret Protection)
-	- (Recommended) **Push protection** (blocks commits that contain secrets)
-4. In each **repository** used in the lab, confirm the repo-level toggles are enabled:
-	- Repository **Settings** → **Security** → **Advanced Security** → enable **Secret Protection**
-	- Repository **Settings** → **Security** → **Advanced Security** → under **Code Security**, set up **CodeQL analysis** using **Default** setup
-
-If you don’t see these settings or they’re locked:
-	- Confirm you are an **organization owner** (or have the required security admin role).
-	- Confirm the org is attached to the **Enterprise trial** created in step 5.
-	- Check whether an enterprise policy is enforcing settings.
-
-### Verify
-
-- In a lab repository, you can open the **Security** tab and see areas for **Code scanning**, **Secret scanning**, and **Dependabot**.
-- In the repository **Settings**, you can find the relevant security toggles (often under **Code security and analysis**).
-
----
-
-## 7) GitHub Copilot (VS Code extension)
+## 5) GitHub Copilot (VS Code extension)
 
 You need a Copilot subscription assigned to your GitHub user, and the VS Code extension installed.
 
@@ -192,7 +123,7 @@ You need a Copilot subscription assigned to your GitHub user, and the VS Code ex
 
 ---
 
-## 8) GitHub Copilot Chat (VS Code extension)
+## 6) GitHub Copilot Chat (VS Code extension)
 
 Copilot Chat requires the chat-capable extension and that your Copilot entitlement includes chat.
 
@@ -209,7 +140,7 @@ Copilot Chat requires the chat-capable extension and that your Copilot entitleme
 
 ---
 
-## 9) Local tooling
+## 7) Local tooling
 
 These labs involve building/running code locally.
 
