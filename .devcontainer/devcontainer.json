@@ -1,7 +1,7 @@
 {
   "name": "inventory-app-codespace",
   "build": {
-    "dockerfile": ".devcontainer/Dockerfile"
+    "dockerfile": "Dockerfile"
   },
   "features": {
     "ghcr.io/azure/azure-dev/azd:latest": {},
