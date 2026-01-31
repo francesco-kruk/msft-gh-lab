@@ -57,8 +57,6 @@ This lab expects you to authenticate and access GitHub resources using an identi
 - You can access the lab’s GitHub organization and repositories.
 - If SSO is required, you can successfully authorize SSO for the org.
 
-> Placeholder: Add your org’s exact “linking” or SSO instructions (the flow differs by org policy).
-
 ---
 
 ## 3) Azure subscription
@@ -81,8 +79,6 @@ You need an Azure subscription you can deploy resources into.
 
 - In the Azure portal, you can create a new **Resource group**.
 - If using CLI, `az account show` returns the expected subscription.
-
-> Placeholder: Add the exact subscription name/ID to use for the lab and any policy constraints (region restrictions, naming rules, etc.).
 
 ---
 
