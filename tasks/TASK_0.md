@@ -36,14 +36,46 @@ Use these engagement styles during the task:
 
 ## Follow-Along Instructions
 
-### 1. Authenticate with Azure
+### 1. Fork the Repository
+1. Navigate to the original repository on GitHub.
+2. Click the **Fork** button in the top-right corner.
+3. Select your GitHub account as the destination for the fork.
+
+### 2. Open the Repository
+
+Choose one of the following options:
+
+#### Option A: Open in GitHub Codespaces (Recommended)
+1. Go to your forked repository on GitHub.
+2. Click the green **Code** button.
+3. Select the **Codespaces** tab.
+4. Click **Create codespace on main**.
+5. Wait for the Codespace to initialize (this may take a few minutes).
+
+#### Option B: Clone Locally
+1. Go to your forked repository on GitHub.
+2. Click the green **Code** button and copy the repository URL.
+3. Open a terminal and run:
+
+```bash
+git clone <your-forked-repo-url>
+cd <repo-name>
+```
+
+4. Open the cloned folder in VS Code:
+
+```bash
+code .
+```
+
+### 3. Authenticate with Azure
 If you haven't already, log in to your Azure account.
 
 ```bash
 azd auth login
 ```
 
-### 2. Initialize and Deploy
+### 4. Initialize and Deploy
 Run the single command that provisions resources and deploys the code.
 
 ```bash
@@ -56,7 +88,7 @@ azd up
 
 **Note:** This process may take 5–10 minutes as it creates Cosmos DB and other resources.
 
-### 3. Verify Deployment
+### 5. Verify Deployment
 Once `azd up` completes, it will print a URL (e.g., `https://ca-web-...containerapps.io`).
 - Click the URL to open the application.
 - Verify that you can see the inventory list (it might be empty initially).
