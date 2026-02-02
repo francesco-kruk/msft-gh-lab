@@ -41,6 +41,15 @@ if [[ "${DEVCONTAINER_INSTALL_DEPS:-}" == "1" ]]; then
 
   info "Installing frontend dependencies (npm ci)..."
   (cd frontend && npm ci)
+
+  # Install test dependencies if tests folder exists
+  if [[ -d "tests" && -f "tests/requirements.txt" ]]; then
+    info "Installing test dependencies..."
+    pip install -r tests/requirements.txt
+
+    info "Installing Playwright browsers..."
+    playwright install chromium --with-deps
+  fi
 else
   info "Dependency install skipped. Set DEVCONTAINER_INSTALL_DEPS=1 to auto-install."
 fi
@@ -59,8 +68,11 @@ After deployment, find your app URL:
 azd env get-values | grep FRONTEND_URI
 
 For local development:
-- Backend: cd backend && uv run uvicorn src.main:app --reload
+- Backend: cd backend && STORAGE_MODE=memory uv run uvicorn src.main:app --reload
 - Frontend: cd frontend && npm run dev
 
-Note: Local backend requires Cosmos RBAC roles for your Azure user.
+To run E2E tests (after starting backend & frontend):
+  cd tests && pytest e2e/test_devices.py -v
+
+Note: Local backend requires Cosmos RBAC roles for your Azure user (or use STORAGE_MODE=memory).
 EOF
