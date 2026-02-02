@@ -40,6 +40,7 @@ Now that you've added the Playwright files from awesome-copilot, configure them 
 
 -   **Update Model Selection**: In both `.github/agents/playwright-tester.agent.md` and `.github/prompts/playwright-explore-website.prompt.md`, change the model to `Claude Sonnet 4.5`, `GPT-5.2-Codex`, or a similarly powerful model.
 -   **Scope Instructions Correctly**: In `.github/instructions/playwright-python.instructions.md`, update the `applyTo` pattern from `'**'` to `'{**/test_*.py,**/*_test.py,**/tests/**/*.py}'`. This ensures the Playwright Python instructions only apply to Python test files, not the entire repository (including your TypeScript frontend).
+-   **Use Python for Tests**: In `.github/agents/playwright-tester.agent.md`, update the Test Generation responsibility to use **Python** instead of TypeScript. Change the line to: `"start writing well-structured and maintainable Playwright tests using Python based on what you have explored."`
 
 ### 3) Update Copilot Instructions
 Add the following text to your `.github/copilot-instructions.md` file to ensure Copilot follows the Playwright best practices when writing tests. You can add it at the end of the file.
@@ -67,9 +68,18 @@ Open Copilot Chat and switch to **Agent Mode**. Use the custom prompt you downlo
 Review the output. Copilot will use the Playwright MCP to click through your app and suggest a testing strategy.
 
 ### 6) Custom Agent - Test Review & Generation
-Add the custom agent `Playwright Tester Mode` by clicking the chat participant dropdown in the Copilot Chat panel. Then, run the following prompt:
+Select the custom agent `Playwright Tester Mode` by clicking the chat participant dropdown in the Copilot Chat panel (or type `@playwright-tester` in the chat). Then, run the following prompt:
 
-> Review the generated test plan and add any missing tests if necessary. If valid, set up the test environment and generate a robust E2E test file in `tests/e2e/test_devices.py`. It should verify that a user can open the frontend, add a new device, see it in the list, and delete it. Assume the app is running on localhost:3000.
+> Review the generated test plan and add any missing tests if necessary. If valid, set up the test environment and generate a robust E2E test file in `tests/e2e/test_devices.py` using **Python with pytest-playwright**. The tests should verify that a user can:
+> 1. Open the frontend at localhost:3000
+> 2. Add a new device with name, type, and optional assigned user
+> 3. See the device appear in the list
+> 4. Edit the device details
+> 5. Delete the device with confirmation dialog
+>
+> Include proper fixtures for app navigation and clean state management. Use role-based locators (get_by_role, get_by_label) as per Playwright best practices.
+
+Also generate a `tests/requirements.txt` file with the test dependencies (`pytest`, `pytest-playwright`, `playwright`).
 
 ### 7) Verification / Running
 Ask Copilot how to run the tests.
@@ -84,7 +94,7 @@ Ask Copilot how to run the tests.
 
 2.  **Install Playwright Browsers**:
     ```bash
-    playwright install
+    playwright install chromium
     ```
 
 3.  **Start the Application**:
