@@ -80,3 +80,45 @@ The deployment sets and uses the following:
 └──────────────┘      └──────────────┘      └──────────────┘
   Container App         Container App         Serverless
 ```
+
+## Workshop Checkpoints
+
+This repository includes checkpoint branches for each task. If you need to catch up or start fresh from a specific point, use the commands below.
+
+### Load a Checkpoint (discard local changes)
+
+```bash
+git stash && git switch task-1   # After completing Task 1
+git stash && git switch task-2   # After completing Task 2
+git stash && git switch task-3   # After completing Task 3
+git stash && git switch task-4   # After completing Task 4
+```
+
+### Load a Checkpoint (keep local changes)
+
+If you want to preserve your current work before switching:
+
+```bash
+git add -A && git stash save "my work on task X"
+git switch task-1
+```
+
+To recover your stashed work later: `git stash pop`
+
+### Reset to a Clean Checkpoint
+
+If you want to completely discard all local changes and reset to a checkpoint:
+
+```bash
+git checkout -- . && git clean -fd && git switch task-1
+```
+
+### Available Checkpoints
+
+| Branch   | Description                          |
+|----------|--------------------------------------|
+| `main`   | Starting point                       |
+| `task-1` | Completed Task 1                     |
+| `task-2` | Completed Task 2                     |
+| `task-3` | Completed Task 3                     |
+| `task-4` | Completed Task 4 (final solution)    |
